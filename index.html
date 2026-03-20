@@ -1,47 +1,60 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Welcome!</title>
-        <style>
-            /* Center the video and caption */
-            .container {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-            }
-            body {
-                background-color: black;
-                color: white; /* Adding white text color for better visibility */
-            }
-        </style>
-    </head>
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-HPEEJX34TJ"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
 
-    <body>
-        <div class="container">
-            <video width="500" autoplay loop id="myVideo" muted>
-                <source src="dudamel.mp4" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
-            <button id="audioButton" style="display: none; margin: 10px; padding: 5px;">Enable Audio</button>
-            <p>This man practically lives in İTÜ BBF-214, go check it out right now!</p>
-        </div>
-        <script>
-            const video = document.getElementById('myVideo');
-            const button = document.getElementById('audioButton');
-            
-            // Show the button immediately
-            button.style.display = 'block';
+        gtag('config', 'G-HPEEJX34TJ');
+    </script>
 
-            // Enable audio when button is clicked
-            button.addEventListener('click', async () => {
-                try {
-                    video.muted = false;
-                    await video.play();
-                    button.style.display = 'none';
-                } catch (err) {
-                    console.log('Playback failed:', err);
-                }
-            });
-        </script>
-    </body>
+    <title>Welcome!</title>
+    <style>
+        /* Center the video and caption */
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        body {
+            background-color: black;
+            color: white;
+            /* Adding white text color for better visibility */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <video width="500" autoplay loop id="myVideo" muted>
+            <source src="dudamel.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <button id="audioButton" style="display: none; margin: 10px; padding: 5px;">Enable Audio</button>
+        <p>This man practically lives in İTÜ BBF-214, go check it out right now!</p>
+    </div>
+    <script>
+        const video = document.getElementById('myVideo');
+        const button = document.getElementById('audioButton');
+
+        // Show the button immediately
+        button.style.display = 'block';
+
+        // Enable audio when button is clicked
+        button.addEventListener('click', async () => {
+            try {
+                video.muted = false;
+                await video.play();
+                button.style.display = 'none';
+            } catch (err) {
+                console.log('Playback failed:', err);
+            }
+        });
+    </script>
+</body>
+
 </html>
