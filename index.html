@@ -251,6 +251,8 @@
                 '💖', '💖', '💗', '💓', '💕', '💕', '❤️', '🩷', '💞', '💘', '💝', '♥️',
                 '👰🏻‍♀️', '👰🏻‍♀️', '🤵🏼‍♂️', '🤵🏼‍♂️', '💍', '💍', '🎂', '🍰', '🧁', '🕊️', '🎀', '🎉', '✨', '✨', '⭐', '💫'
             ];
+            // always on screen, large and barely spinning
+            const featured = ['👰🏻‍♀️', '🤵🏼‍♂️', '👰🏻‍♀️', '🤵🏼‍♂️', '💍', '💐'];
             let timer = null;
             let seeded = false;
 
@@ -270,20 +272,27 @@
                 for (let i = 0; i < 70; i++) {
                     const s = document.createElement('span');
                     s.className = 'nikah-petal';
-                    s.textContent = cuteThings[Math.floor(Math.random() * cuteThings.length)];
-                    s.style.left = (Math.random() * 100).toFixed(2) + 'vw';
+                    // guarantee the couple shows up big instead of leaving them to the draw
+                    const star = i < featured.length;
+                    s.textContent = star ? featured[i] : cuteThings[Math.floor(Math.random() * cuteThings.length)];
+                    s.style.left = star
+                        ? (6 + (i / featured.length) * 88 + Math.random() * 6).toFixed(2) + 'vw'
+                        : (Math.random() * 100).toFixed(2) + 'vw';
                     // a few big showpieces, plenty of tiny confetti in between
                     const r = Math.random();
-                    const size = r > 0.92 ? 46 + Math.random() * 26
+                    const size = star ? 52 + Math.random() * 20
+                               : r > 0.92 ? 46 + Math.random() * 26
                                : r > 0.65 ? 26 + Math.random() * 20
                                : 10 + Math.random() * 16;
                     s.style.fontSize = size.toFixed(0) + 'px';
-                    s.style.opacity = (0.45 + Math.random() * 0.5).toFixed(2);
+                    s.style.opacity = star ? '1' : (0.45 + Math.random() * 0.5).toFixed(2);
                     // bigger things fall a little faster, like real petals
                     s.style.animationDuration = (22 - size * 0.15 + Math.random() * 10).toFixed(1) + 's';
                     s.style.animationDelay = (-Math.random() * 25).toFixed(1) + 's';
                     s.style.setProperty('--dx', (Math.random() * 12 - 6).toFixed(1) + 'vw');
-                    s.style.setProperty('--spin', (Math.random() * 540 - 270).toFixed(0) + 'deg');
+                    s.style.setProperty('--spin', star
+                        ? (Math.random() * 40 - 20).toFixed(0) + 'deg'
+                        : (Math.random() * 540 - 270).toFixed(0) + 'deg');
                     petals.appendChild(s);
                 }
             }
