@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="utf-8">
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-HPEEJX34TJ"></script>
     <script>
@@ -55,6 +56,272 @@
             }
         });
     </script>
+
+    <!-- ✨ Sürpriz: "X" tuşuna bas ✨ -->
+    <div id="nikahEgg" lang="tr" aria-hidden="true">
+        <div id="nikahPetals"></div>
+        <div id="nikahContent">
+            <div class="nikah-rings">💍</div>
+            <p class="nikah-kicker">Tarihi not al</p>
+            <h1 class="nikah-names">Enes <span>&amp;</span> Bilge</h1>
+            <p class="nikah-sub">evleniyor</p>
+            <div class="nikah-divider">🌸 ❦ 🌸</div>
+            <div id="nikahTimer" class="nikah-timer">
+                <div class="nikah-unit"><span class="nikah-num" id="nkD">--</span><span class="nikah-lbl">gün</span></div>
+                <div class="nikah-unit"><span class="nikah-num" id="nkH">--</span><span class="nikah-lbl">saat</span></div>
+                <div class="nikah-unit"><span class="nikah-num" id="nkM">--</span><span class="nikah-lbl">dakika</span></div>
+                <div class="nikah-unit"><span class="nikah-num" id="nkS">--</span><span class="nikah-lbl">saniye</span></div>
+            </div>
+            <p class="nikah-when">Nikâh &middot; 1 Ekim, 14.00 &middot; İstanbul 🕌</p>
+            <p class="nikah-hint">geri dönmek için <kbd>Esc</kbd></p>
+        </div>
+    </div>
+
+    <style>
+        #nikahEgg {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            overflow: hidden;
+            background:
+                radial-gradient(circle at 20% 15%, #fff4f7 0%, transparent 55%),
+                radial-gradient(circle at 85% 80%, #fdeef4 0%, transparent 55%),
+                linear-gradient(160deg, #fffaf6 0%, #fdf0f4 55%, #f8e8ee 100%);
+            color: #6b4550;
+            font-family: "Palatino Linotype", Palatino, Georgia, serif;
+        }
+
+        #nikahEgg.on {
+            display: block;
+            animation: nikahFade .8s ease both;
+        }
+
+        @keyframes nikahFade { from { opacity: 0 } to { opacity: 1 } }
+
+        #nikahPetals {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+        }
+
+        .nikah-petal {
+            position: absolute;
+            top: -8vh;
+            user-select: none;
+            animation-name: nikahFall;
+            animation-timing-function: linear;
+            animation-iteration-count: infinite;
+            opacity: .85;
+        }
+
+        @keyframes nikahFall {
+            0%   { transform: translateY(-10vh) translateX(0) rotate(0deg); }
+            50%  { transform: translateY(45vh) translateX(4vw) rotate(180deg); }
+            100% { transform: translateY(110vh) translateX(-3vw) rotate(360deg); }
+        }
+
+        #nikahContent {
+            position: relative;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 4vh 6vw;
+            box-sizing: border-box;
+        }
+
+        .nikah-rings {
+            font-size: clamp(2rem, 6vw, 3.4rem);
+            animation: nikahBob 3s ease-in-out infinite;
+        }
+
+        @keyframes nikahBob {
+            0%, 100% { transform: translateY(0) rotate(-6deg); }
+            50%      { transform: translateY(-10px) rotate(6deg); }
+        }
+
+        .nikah-kicker {
+            margin: .6rem 0 0;
+            letter-spacing: .45em;
+            text-transform: uppercase;
+            font-size: clamp(.6rem, 1.6vw, .8rem);
+            color: #c48fa2;
+        }
+
+        .nikah-names {
+            margin: .2rem 0;
+            font-weight: 400;
+            font-size: clamp(2.4rem, 9vw, 5.5rem);
+            line-height: 1.1;
+            color: #8c4f63;
+            text-shadow: 0 2px 18px rgba(200, 140, 160, .35);
+        }
+
+        .nikah-names span {
+            font-style: italic;
+            color: #d79bb0;
+        }
+
+        .nikah-sub {
+            margin: 0;
+            font-style: italic;
+            font-size: clamp(1rem, 2.6vw, 1.4rem);
+            color: #a4707f;
+        }
+
+        .nikah-divider {
+            margin: 1.4rem 0;
+            letter-spacing: .5em;
+            font-size: clamp(.9rem, 2.2vw, 1.2rem);
+        }
+
+        .nikah-timer {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: clamp(.5rem, 2.5vw, 1.4rem);
+        }
+
+        .nikah-unit {
+            min-width: clamp(70px, 16vw, 120px);
+            padding: clamp(.6rem, 2vw, 1.1rem) .4rem;
+            border-radius: 18px;
+            background: rgba(255, 255, 255, .65);
+            border: 1px solid rgba(215, 155, 176, .45);
+            box-shadow: 0 10px 26px rgba(190, 130, 155, .18);
+            backdrop-filter: blur(3px);
+        }
+
+        .nikah-num {
+            display: block;
+            font-size: clamp(1.7rem, 6vw, 3.2rem);
+            line-height: 1;
+            font-variant-numeric: tabular-nums;
+            color: #8c4f63;
+        }
+
+        .nikah-lbl {
+            display: block;
+            margin-top: .45rem;
+            font-size: clamp(.55rem, 1.5vw, .72rem);
+            letter-spacing: .3em;
+            text-transform: uppercase;
+            color: #bd8b9c;
+        }
+
+        .nikah-when {
+            margin-top: 1.6rem;
+            font-size: clamp(.95rem, 2.4vw, 1.25rem);
+            color: #8c4f63;
+        }
+
+        .nikah-hint {
+            position: absolute;
+            bottom: 2vh;
+            margin: 0;
+            font-size: .7rem;
+            letter-spacing: .2em;
+            color: #cba6b3;
+            font-family: system-ui, sans-serif;
+        }
+
+        .nikah-hint kbd {
+            border: 1px solid #dcbcc7;
+            border-radius: 4px;
+            padding: 0 4px;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .nikah-petal, .nikah-rings { animation: none; }
+        }
+    </style>
+
+    <script>
+        (function () {
+            const egg = document.getElementById('nikahEgg');
+            const petals = document.getElementById('nikahPetals');
+            const page = document.querySelector('.container');
+            const video = document.getElementById('myVideo');
+            const cuteThings = ['👰', '🤵', '💐', '🌸', '🌷', '🎂', '💍', '🌹', '💒', '🕊️', '🥂', '✨', '💖', '🍰', '🎀'];
+            let timer = null;
+            let seeded = false;
+
+            // Nikâh: 1 Ekim, saat 14.00 İstanbul (UTC+3)
+            function targetDate() {
+                const now = new Date();
+                let year = now.getUTCFullYear();
+                // İstanbul saatiyle 14.00 (UTC+3) == 11.00 UTC
+                let t = Date.UTC(year, 9, 1, 11, 0, 0);
+                if (t < now.getTime()) t = Date.UTC(year + 1, 9, 1, 11, 0, 0);
+                return t;
+            }
+
+            function seedPetals() {
+                if (seeded) return;
+                seeded = true;
+                for (let i = 0; i < 34; i++) {
+                    const s = document.createElement('span');
+                    s.className = 'nikah-petal';
+                    s.textContent = cuteThings[Math.floor(Math.random() * cuteThings.length)];
+                    s.style.left = (Math.random() * 100).toFixed(2) + 'vw';
+                    s.style.fontSize = (12 + Math.random() * 26).toFixed(0) + 'px';
+                    s.style.animationDuration = (9 + Math.random() * 12).toFixed(1) + 's';
+                    s.style.animationDelay = (-Math.random() * 20).toFixed(1) + 's';
+                    petals.appendChild(s);
+                }
+            }
+
+            function pad(n) { return String(n).padStart(2, '0'); }
+
+            function tick() {
+                const diff = targetDate() - Date.now();
+                const d = Math.max(0, Math.floor(diff / 86400000));
+                const h = Math.max(0, Math.floor(diff / 3600000) % 24);
+                const m = Math.max(0, Math.floor(diff / 60000) % 60);
+                const s = Math.max(0, Math.floor(diff / 1000) % 60);
+                document.getElementById('nkD').textContent = d;
+                document.getElementById('nkH').textContent = pad(h);
+                document.getElementById('nkM').textContent = pad(m);
+                document.getElementById('nkS').textContent = pad(s);
+            }
+
+            function open() {
+                seedPetals();
+                if (page) page.style.display = 'none';
+                if (video) video.pause();
+                document.body.style.backgroundColor = '#fffaf6';
+                egg.classList.add('on');
+                egg.setAttribute('aria-hidden', 'false');
+                tick();
+                timer = setInterval(tick, 1000);
+            }
+
+            function close() {
+                clearInterval(timer);
+                timer = null;
+                egg.classList.remove('on');
+                egg.setAttribute('aria-hidden', 'true');
+                document.body.style.backgroundColor = '';
+                if (page) page.style.display = '';
+                if (video) video.play().catch(() => {});
+            }
+
+            document.addEventListener('keydown', (e) => {
+                if (e.metaKey || e.ctrlKey || e.altKey) return;
+                const tag = (e.target.tagName || '').toLowerCase();
+                if (tag === 'input' || tag === 'textarea') return;
+                if (e.key === 'x' || e.key === 'X') {
+                    timer ? close() : open();
+                } else if (e.key === 'Escape' && timer) {
+                    close();
+                }
+            });
+        })();
+    </script>
+
 </body>
 
 </html>
