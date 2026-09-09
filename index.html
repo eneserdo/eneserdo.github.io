@@ -72,7 +72,7 @@
                 <div class="nikah-unit"><span class="nikah-num" id="nkM">--</span><span class="nikah-lbl">dakika</span></div>
                 <div class="nikah-unit"><span class="nikah-num" id="nkS">--</span><span class="nikah-lbl">saniye</span></div>
             </div>
-            <p class="nikah-when">Nikâh &middot; 1 Ekim, 14.00 &middot; İstanbul 🕌</p>
+            <p class="nikah-when">Nikâh &middot; 2 Ekim, 14.00 &middot; İstanbul 🕌</p>
             <p class="nikah-hint">geri dönmek için <kbd>Esc</kbd></p>
         </div>
     </div>
@@ -117,8 +117,8 @@
 
         @keyframes nikahFall {
             0%   { transform: translateY(-10vh) translateX(0) rotate(0deg); }
-            50%  { transform: translateY(45vh) translateX(4vw) rotate(180deg); }
-            100% { transform: translateY(110vh) translateX(-3vw) rotate(360deg); }
+            50%  { transform: translateY(45vh) translateX(var(--dx, 4vw)) rotate(var(--spin, 180deg)); }
+            100% { transform: translateY(110vh) translateX(calc(var(--dx, 4vw) * -0.7)) rotate(calc(var(--spin, 180deg) * 2)); }
         }
 
         #nikahContent {
@@ -245,31 +245,45 @@
             const petals = document.getElementById('nikahPetals');
             const page = document.querySelector('.container');
             const video = document.getElementById('myVideo');
-            const cuteThings = ['👰', '🤵', '💐', '🌸', '🌷', '🎂', '💍', '🌹', '💒', '🕊️', '🥂', '✨', '💖', '🍰', '🎀'];
+            // flowers and hearts repeat so they show up most often
+            const cuteThings = [
+                '🌸', '🌸', '🌸', '🌷', '🌷', '🌹', '🌹', '🌼', '🌼', '🌺', '🌻', '🏵️', '💮', '🥀', '💐', '💐',
+                '💖', '💖', '💗', '💓', '💕', '💕', '❤️', '🩷', '💞', '💘', '💝', '♥️',
+                '👰', '🤵', '💍', '💒', '🎂', '🍰', '🧁', '🥂', '🍾', '🕊️', '🎀', '🎉', '✨', '✨', '⭐', '💫'
+            ];
             let timer = null;
             let seeded = false;
 
-            // Nikâh: 1 Ekim, saat 14.00 İstanbul (UTC+3)
+            // Nikâh: 2 Ekim, saat 14.00 İstanbul (UTC+3)
             function targetDate() {
                 const now = new Date();
                 let year = now.getUTCFullYear();
                 // İstanbul saatiyle 14.00 (UTC+3) == 11.00 UTC
-                let t = Date.UTC(year, 9, 1, 11, 0, 0);
-                if (t < now.getTime()) t = Date.UTC(year + 1, 9, 1, 11, 0, 0);
+                let t = Date.UTC(year, 9, 2, 11, 0, 0);
+                if (t < now.getTime()) t = Date.UTC(year + 1, 9, 2, 11, 0, 0);
                 return t;
             }
 
             function seedPetals() {
                 if (seeded) return;
                 seeded = true;
-                for (let i = 0; i < 34; i++) {
+                for (let i = 0; i < 70; i++) {
                     const s = document.createElement('span');
                     s.className = 'nikah-petal';
                     s.textContent = cuteThings[Math.floor(Math.random() * cuteThings.length)];
                     s.style.left = (Math.random() * 100).toFixed(2) + 'vw';
-                    s.style.fontSize = (12 + Math.random() * 26).toFixed(0) + 'px';
-                    s.style.animationDuration = (9 + Math.random() * 12).toFixed(1) + 's';
-                    s.style.animationDelay = (-Math.random() * 20).toFixed(1) + 's';
+                    // a few big showpieces, plenty of tiny confetti in between
+                    const r = Math.random();
+                    const size = r > 0.92 ? 46 + Math.random() * 26
+                               : r > 0.65 ? 26 + Math.random() * 20
+                               : 10 + Math.random() * 16;
+                    s.style.fontSize = size.toFixed(0) + 'px';
+                    s.style.opacity = (0.45 + Math.random() * 0.5).toFixed(2);
+                    // bigger things fall a little faster, like real petals
+                    s.style.animationDuration = (22 - size * 0.15 + Math.random() * 10).toFixed(1) + 's';
+                    s.style.animationDelay = (-Math.random() * 25).toFixed(1) + 's';
+                    s.style.setProperty('--dx', (Math.random() * 12 - 6).toFixed(1) + 'vw');
+                    s.style.setProperty('--spin', (Math.random() * 540 - 270).toFixed(0) + 'deg');
                     petals.appendChild(s);
                 }
             }
