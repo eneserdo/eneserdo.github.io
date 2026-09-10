@@ -60,6 +60,12 @@
     <!-- ✨ Sürpriz: "X" tuşuna bas ✨ -->
     <div id="nikahEgg" lang="tr" aria-hidden="true">
         <div id="nikahPetals"></div>
+        <audio id="nikahMusic" src="benim-herif.mp3" loop preload="none"></audio>
+        <button id="nikahSound" type="button" title="Müzik" aria-label="Müziği aç/kapat">🔊</button>
+        <div id="nikahUnmute" hidden>
+            <p>Tarayıcı sesi engelledi 🙈</p>
+            <button id="nikahUnmuteBtn" type="button">🎵 Müziği çal</button>
+        </div>
         <div id="nikahContent">
             <div class="nikah-rings">💍</div>
             <p class="nikah-kicker">Tarihi not al</p>
@@ -234,6 +240,60 @@
             padding: 0 4px;
         }
 
+        #nikahSound {
+            position: absolute;
+            top: 2vh;
+            right: 2.5vw;
+            z-index: 2;
+            border: 1px solid rgba(215, 155, 176, .5);
+            background: rgba(255, 255, 255, .7);
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            box-shadow: 0 6px 16px rgba(190, 130, 155, .2);
+            transition: transform .2s ease;
+        }
+
+        #nikahSound:hover { transform: scale(1.1); }
+
+        #nikahUnmute {
+            position: absolute;
+            inset: 0;
+            z-index: 3;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            background: rgba(255, 250, 246, .82);
+            backdrop-filter: blur(6px);
+            text-align: center;
+        }
+
+        #nikahUnmute[hidden] { display: none; }
+
+        #nikahUnmute p {
+            margin: 0;
+            font-size: clamp(1rem, 2.6vw, 1.3rem);
+            color: #a4707f;
+        }
+
+        #nikahUnmuteBtn {
+            font: inherit;
+            font-size: clamp(1rem, 2.6vw, 1.25rem);
+            color: #8c4f63;
+            padding: .7rem 1.6rem;
+            border-radius: 999px;
+            border: 1px solid rgba(215, 155, 176, .6);
+            background: rgba(255, 255, 255, .85);
+            cursor: pointer;
+            box-shadow: 0 8px 22px rgba(190, 130, 155, .22);
+        }
+
+        #nikahUnmuteBtn:hover { background: #fff; }
+
         @media (prefers-reduced-motion: reduce) {
             .nikah-petal, .nikah-rings { animation: none; }
         }
@@ -245,6 +305,9 @@
             const petals = document.getElementById('nikahPetals');
             const page = document.querySelector('.container');
             const video = document.getElementById('myVideo');
+            const music = document.getElementById('nikahMusic');
+            const soundBtn = document.getElementById('nikahSound');
+            const unmute = document.getElementById('nikahUnmute');
             // flowers and hearts repeat so they show up most often
             const cuteThings = [
                 '🌸', '🌸', '🌸', '🌷', '🌷', '🌹', '🌹', '🌼', '🌺', '🌻', '🏵️', '🥀', '💐', '💐',
@@ -311,6 +374,29 @@
                 document.getElementById('nkS').textContent = pad(s);
             }
 
+            // the X keypress counts as a user gesture, so this usually just plays;
+            // if the browser still blocks it, fall back to an explicit button
+            function startMusic() {
+                music.volume = 0.7;
+                music.play().then(() => {
+                    unmute.hidden = true;
+                    soundBtn.textContent = '🔊';
+                }).catch(() => {
+                    unmute.hidden = false;
+                });
+            }
+
+            soundBtn.addEventListener('click', () => {
+                if (music.paused) {
+                    startMusic();
+                } else {
+                    music.pause();
+                    soundBtn.textContent = '🔇';
+                }
+            });
+
+            document.getElementById('nikahUnmuteBtn').addEventListener('click', startMusic);
+
             function open() {
                 seedPetals();
                 if (page) page.style.display = 'none';
@@ -320,11 +406,16 @@
                 egg.setAttribute('aria-hidden', 'false');
                 tick();
                 timer = setInterval(tick, 1000);
+                startMusic();
             }
 
             function close() {
                 clearInterval(timer);
                 timer = null;
+                music.pause();
+                music.currentTime = 0;
+                unmute.hidden = true;
+                soundBtn.textContent = '🔊';
                 egg.classList.remove('on');
                 egg.setAttribute('aria-hidden', 'true');
                 document.body.style.backgroundColor = '';
